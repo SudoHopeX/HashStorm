@@ -46,20 +46,22 @@ USAGES:
       python hashstorm.py [Options] [Arguments]
       
 OPTIONS:
-   > --help                   print tool usages
-   > identify                 identify the hash-type of specified hash-value
-   > crack                    crack the hash-value (!NOTE: hash-type must be passed)
-   > icrack [Default]         automatically identify hash-type and crack the hash-value specified
+   > --help                    print tool usages
+   > identify                  identify the hash-type of specified hash-value
+   > crack                     crack the hash-value (!NOTE: hash-type must be passed)
+   > icrack [Default]          automatically identify hash-type and crack the hash-value specified
       
 ARGUMENTS:
-   > -h <hash-value(s)>       add one or more hash-value to crack or identify followed by ','
-   > -hf <hashes file>        pass a hash file
-   > -H <hash-type(s)>        pass hash-type to crack
-   > -w <wordlist-path>       specify wordlist to use for cracking hash
-   > -o <output-file>         save result in specified file
-   > -v                       verbose mode ( show detailed info while cracking ) [in update]
-   > -g                       perform a google search if hash not cracked [in update]
-   > -brute                   crack hashes using self defined charset and length [in update]
+   > -h <hash-value(s)>        Add one or more hash-value to crack or identify followed by ','
+   > -hf <hashes file>         Pass a hash file
+   > -H <hash-type(s)>         Pass hash-type to crack
+   > -w <wordlist-path>        Specify wordlist to use for cracking hash
+   > -o <output-file>          Save result in specified file
+   > -v                        Verbose mode ( show detailed info while cracking ) [in update]
+   > -g                        Perform a google search if hash not cracked [in update]
+   > -brute                    Crack hashes using self defined charset and length [in update]
+   > -charset <charset>        Specify character set for bruteforccing like "a-z0-9"
+   > -length <pass-max-length> Specify hash word's maximum value
 
 EXAMPLES:
    > python hashstorm.py identify -h 5d41402abc4b2a76b9719d911017c592
