@@ -21,7 +21,7 @@ To install and run HashStorm, follow these steps:
 
 - Clone the repository
 ```
-git clone https://github.com/sudo-hope0529/Hashstorm
+git clone https://github.com/sudo-hope0529/HashStorm
 ```
 
 - Move to the HashStorm directory
