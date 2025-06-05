@@ -60,8 +60,8 @@ ARGUMENTS:
    > -v                        Verbose mode ( show detailed info while cracking ) [in update]
    > -g                        Perform a google search if hash not cracked [in update]
    > -brute                    Crack hashes using self defined charset and length [in update]
-   > -charset <charset>        Specify character set for bruteforccing like "a-z0-9"
-   > -length <pass-max-length> Specify hash word's maximum value
+   > -charset <charset>        Specify character set for bruteforccing like "a-z0-9" [in update]
+   > -length <pass-max-length> Specify hash word's maximum value [in update]
 
 EXAMPLES:
    > python hashstorm.py identify -h 5d41402abc4b2a76b9719d911017c592
