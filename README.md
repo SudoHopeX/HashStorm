@@ -87,7 +87,7 @@ Contributions to HashStorm are encouraged to improve features, fix bugs, or add 
 
 ---
 # License
-This project is licensed under MIT. See [LICENSE](LICENCE) file for more info.
+This project is licensed under MIT. See [LICENSE](LICENSE) file for more info.
 
 
 ---
