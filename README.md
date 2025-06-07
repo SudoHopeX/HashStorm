@@ -29,10 +29,11 @@ git clone https://github.com/sudo-hope0529/HashStorm
 cd HashStorm
 ```
 
-- Install python modules(libraries)
+- Install python modules(libraries) 
 ```
-pip install -r lib_requirements.txt
+pip3 install -r lib_requirements.txt
 ```
+[ In kali-linux direct pip3 installation is not permitted without virtual environment upto my current info, so if an error arises use venv ]
 
 - You are good to go, to use 'HashStorm'
 
