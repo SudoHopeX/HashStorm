@@ -119,6 +119,7 @@ class hash_identification:
         save_result(result)  # Return the identification result
 
       def _identify_single_hash(self, hash_str):
+        bcrypt_hash = False
         # Step 1: Basic validation for hexadecimal characters (no length restriction for generality)
         if not all(c in '0123456789abcdefABCDEF' for c in hash_str.lower()):
             bcrypt_hash = self.is_bcrypt_hash(hash_str)
