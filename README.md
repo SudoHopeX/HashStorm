@@ -23,13 +23,19 @@ To install and run HashStorm, follow these steps:
 - Ensure you have Python latest version installed, as the script relies on Python's standard libraries. Download Python from the official website if needed.
 
 - Clone the repository
-```git clone https://github.com/sudo-hope0529/Hashstorm```
+```
+git clone https://github.com/sudo-hope0529/Hashstorm
+```
 
 - move to the HashStorm dir
-`cd HashStorm`
+```
+cd HashStorm
+```
 
 - run setup shell script
-`sudo bash setup.sh`
+```
+sudo bash setup.sh
+```
 
 - You are good to go to use 'hashstorm'
 
