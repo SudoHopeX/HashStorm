@@ -49,15 +49,15 @@ class Tool_info():
   ###########################          ###     ###      ##    ###  ######      ###         ##
      ######      ######               ###     ###      ##    ###  ###  ###    ###          ##
     ######      ######        ##########     ###      #########  ###    ###  ###           ##
-   ######      ######         ########      ###       #######   ###      ## ###            ##
+   ######      ######         ########      ###       #######   ###      ## ###    v1.1    ##
       
 ''')
    def print_usages():
       Tool_info.hash_crack_name()
       print('''
-      HashStorm v-1.0 by Krishna Dwivedi
+      HashStorm v-1.1 by Krishna Dwivedi
                GitHub   => sudo-hope0529
-               LinkedIn => dkrishna0124
+               LinkedIn => @dkrishna0124
 
       A python script to identify and crack multiple hashes quickly.
             
