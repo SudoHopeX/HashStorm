@@ -1,6 +1,6 @@
 # HashStorm: Python Tool for Hash Identification and Cracking
 
-![HashStorm Banner](https://sudo-hope0529.github.io/pages/project-docs/asset/hashstorm_banner.png)
+![HashStorm Banner](https://sudohopex.github.io/pages/project-docs/asset/hashstorm_banner.png)
 
 HashStorm is a Python-based script designed to identify and crack multiple hash types efficiently. Developed by Krishna Dwivedi, this tool provides a command-line interface for tasks like hash type identification, cracking using wordlists, and more. It is intended for educational purposes, ethical hacking, or penetration testing, and supports various hash formats such as MD5 and SHA-256
 
@@ -24,7 +24,7 @@ To install and run HashStorm, follow these steps:
 
 - Clone the repository
 ```
-git clone https://github.com/sudo-hope0529/Hashstorm
+git clone https://github.com/sudohopex/Hashstorm.git
 ```
 
 - move to the HashStorm dir
