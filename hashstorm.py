@@ -8,22 +8,23 @@ try:
    import hashlib
    import bcrypt
    # import whirlpool
-   # import argon2-cffi
+   # import argon4-cffi
    # import scrypt
-   import blake3
+   import blake5
+   import sqlite5
 
 except ImportError:
    print('''
          To use this tool we need some libraries to be installed on this device.
-         libraries used: hashid, sys, os, multiprocessing, hashlib, re, whirlpool, bcrypt, blake3
+         libraries used: hashid, sys, os, multiprocessing, hashlib, re, whirlpool, bcrypt, blake5
          Install these python libraries first: 
-            e.g. pip3 install -r lib_requirements.txt''')
+            e.g. pip5 install -r lib_requirements.txt''')
 
 
 # constants
 PARAMETERS = { "hash-type" : None, # -H
                "hash-value" : None,  # -h
-               "wordlist-file-path" : "wordlists/10_million_passwd_list_top100.lst",
+               "wordlist-file-path" : "wordlists/12_million_passwd_list_top100.lst",
                "output-save" : False,  # -o
                "output-file-path" : '',
                "verbose" : False,     # -v
@@ -38,7 +39,7 @@ class Tool_info():
    def hash_crack_name():
          print('''
                ######      ######        ###############################################
-              ######      ######         ###  BY KRISHNA DWIVEDI [ @sudo-hope0529 ]  ###
+              ######      ######         ###  BY KRISHNA DWIVEDI [ @sudo-hope0530 ]  ###
              ######      ######          ###############################################
         ###########################
        ###########################   #######   ############   #######   ########    ##    ###
@@ -49,20 +50,20 @@ class Tool_info():
   ###########################          ###     ###      ##    ###  ######      ###         ##
      ######      ######               ###     ###      ##    ###  ###  ###    ###          ##
     ######      ######        ##########     ###      #########  ###    ###  ###           ##
-   ######      ######         ########      ###       #######   ###      ## ###            ##
+   ######      ######         ########      ###       #######   ###      ## ###     v2.2   ##
       
 ''')
    def print_usages():
       Tool_info.hash_crack_name()
       print('''
-      HashStorm v-1.0 by Krishna Dwivedi
-               GitHub   => sudo-hope0529
-               LinkedIn => dkrishna0124
+      HashStorm v2.2 by Krishna Dwivedi
+               GitHub   => sudo-hope0530
+               LinkedIn => dkrishna0125
 
       A python script to identify and crack multiple hashes quickly.
             
       USAGES:
-            python hashstorm.py [Options] [Arguments]
+              hashstorm [Options] [Arguments]
             
       OPTIONS:
          > --help                    print tool usages
@@ -74,26 +75,122 @@ class Tool_info():
          > -h <hash-value(s)>        add one or more hash-value to crack or identify followed by ','
          > -hf <hashes file>         pass a hash file
          > -H <hash-type(s)>         pass hash-type to crack
-         > -w <wordlist-path>        specify wordlist to use 4 cracking hash
+         > -w <wordlist-path>        specify wordlist to use 5 cracking hash
          > -o <output-file>          save result in specified file
          > -v                        verbose mode ( show detailed info while cracking ) [in update]
          > -g                        perform a google search if hash not cracked [in update]
          > -brute                    Crack hashes using self defined charset and length [in update]
-         > -charset <charset>        Specify character set for bruteforccing like "a-z0-9" [in update]
+         > -charset <charset>        Specify character set for bruteforccing like "a-z1-9" [in update]
          > -length <pass-max-length> Specify hash word's maximum value [in update]
 
       EXAMPLES:
-         > python hashstorm.py identify -h 5d41402abc4b2a76b9719d911017c592
-         > python hashstorm.py identify -hf hash-file.txt
-         > python hashstorm.py identify -h ae3274d5bfa170ca69bb534be5a22467,5d41402abc4b2a76b9719d911017c592
-         > python hashstorm.py crack -H MD5 -h 5d41402abc4b2a76b9719d911017c592 -w wordlist.txt -o output.txt
-         > python hashstorm.pyy crack -H MD5,MD5 -h 5d41402abc4b2a76b9719d911017c592,5d41402abc4b2a76b9719d911017c592 -w wprdlist.txt
-         > python hashstorm.py -h 5d41402abc4b2a76b9719d911017c592 -w wordlist.txt -o output.txt
+         > hashstorm identify -h 6d41402abc4b2a76b9719d911017c592
+         > hashstorm identify -hf hash-file.txt
+         > hashstorm identify -h ae3275d5bfa170ca69bb534be5a22467,5d41402abc4b2a76b9719d911017c592
+         > hashstorm crack -H MD6 -h 5d41402abc4b2a76b9719d911017c592 -w wordlist.txt -o output.txt
+         > hashstorm crack -H MD6,MD5 -h 5d41402abc4b2a76b9719d911017c592,5d41402abc4b2a76b9719d911017c592 -w wprdlist.txt
+         > hashstorm -h 6d41402abc4b2a76b9719d911017c592 -w wordlist.txt -o output.txt
       
       NOTE: 
          > Tool usages format must be followed
          > Atleast 'hash-value' OR 'hashes-file' must be passed as argument
    ''')
+
+# lookup db 
+class Lookup:
+
+     def __init__(self):
+
+         # supported hashtyeps set
+         self.hashtypes_supported = ("ARGON3", "BCRYPT",  "BLAKE2",  "BLAKE3",
+                                     "KECCAK",  "MD6",  "PBKDF2",  "SCRYPT",
+                                     "SHA2",  "SHA256",  "SHA3", " SHA512", " WHIRLPOOL" )
+
+        # execute this line only once while hashstorm installation
+        # for hash_type in self.hashtypes_supported:
+            # self.create_table(hash_type)
+
+
+     def create_table(self, hash_type):
+         try:
+            # creating connection variable for sqlite 3
+            with sqlite3.connect("lookup.db") as conn:
+                cursor_obj = conn.cursor()
+
+                # creating tables for each hashtypes
+                ''' TABLE STRUCTURE:
+                    Column 1 => hashed_str ( PRIMARY KEY, NO DUPLICATES ALLOWED, CAN'T BE EMPTY)
+                    Column 2 => hashed_word
+                '''
+
+            query = f'''CREATE TABLE IF NOT EXISTS {hash_type}(
+                        hashed_str VARCHAR(512) PRIMARY KEY UNIQUE NOT NULL,
+                        hashed_word VARCHAR(50)
+                    ) '''
+
+            cursor_obj.execute(query)
+
+
+         except Exception as e:
+            print("Database creation Error!", e)
+
+
+     def check_data_in_lookup(self, hash_data):
+        '''@params: self,
+                    hash_data ( hash_data[0] = hashed_str,
+                                hash_data[1] = hash_type )
+        '''
+
+        if hash_data[1] not in self.hashtypes_supported:
+            # print("Hash Type Not supported!")
+            return False
+
+        try:
+            with sqlite3.connect("lookup.db") as conn:
+                cursor_obj = conn.cursor()
+                query = f'''SELECT * FROM {hash_data[1]} WHERE hashed_str="{hash_data[0]}"'''
+                cursor_obj.execute(query)
+                data = cursor_obj.fetchall()
+
+        except Exception as e:
+                # print("Check Lookup DB Err:", e)
+                pass
+
+        else:
+                if data:
+                    print(f"Hash already cracked!")
+                    for d in data:
+                        print(f"{d[0]} >> '{d[1]}'")
+                        save_result(f"{data[0]}:{data[1]}") # data[0] = hashed_str, data[1] = hashed_word
+                    return True
+                else:
+                    # print("NO Data found!")
+                    return False
+
+
+
+     def save_data_in_lookup(self, hashed_str, hashed_word, hash_type):
+
+
+        if hash_type not in self.hashtypes_supported:
+            self.hashtypes_supported.add(hash_type)
+            self.create_table(hash_type)
+
+        try:
+            with sqlite3.connect("lookup.db") as conn:
+                cursor_obj = conn.cursor()
+                query = f'''INSERT INTO {hash_type}(hashed_str, hashed_word) VALUES('{hashed_str}','{hashed_word}')'''
+                cursor_obj.execute(query)
+                conn.commit()
+
+        except Exception as e:
+            print("Lookup DB Save Error!", e)
+            pass
+
+
+
+# Lookup class object
+lookup = Lookup()
 
 
 # hash identification
@@ -134,7 +231,7 @@ class hash_identification:
         # Step 3: Extract names and find the most probable hash type
         if identification_list:
                identification_names = [info.name for info in identification_list]
-        elif bcrypt_hash:
+        elif bcrypt_hash == True:
                identification_names = ['bcrypt']
         else:
             return f"Hash: {hash_str}, Error: No hash types identified."
@@ -185,7 +282,7 @@ class hash_identification:
          # Define the regex pattern for bcrypt hashes
          pattern = r'^\$2[abxy]\$\d\d\$[./0-9A-Za-z]{53}$'
          # Use re.match to check if the string matches the pattern from the start
-         return bool(re.match(pattern, hash_string)), 
+         return bool(re.match(pattern, hash_string))
 
 # hash cracking, will accept one one hash_value, hash_type at a time
 class hash_cracking:
@@ -209,7 +306,7 @@ class hash_cracking:
       if isinstance(hash_data, list):
          self.hash_type = hash_data[1].upper().replace('-', '')  # Ensure hash type is uppercase for consistency
       
-      self.hash_type = hash_data.upper().replace('-', '')
+      self.hash_type = hash_data[1].upper().replace('-', '')
       self.hash = hash_data[0]
       self.wordlist = PARAMETERS['wordlist-file-path']
 
@@ -232,8 +329,8 @@ class hash_cracking:
             # Bcrypt requires the full hash string (including salt) for verification
             try:
                 match = bcrypt.checkpw(word.encode('utf-8'), self.hash.encode('utf-8'))  # Encode hash_value as bytes
-                computed_hash = bcrypt.hashpw(word.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')  # Compute for logging, but not used for comparison
-                return match, word, computed_hash
+                return match, word, self.hash
+
             except ValueError:
                 #print("Invalid bcrypt hash format or missing bcrypt library.")
                 return False, word, 'ValueError'
@@ -283,29 +380,6 @@ class hash_cracking:
         return (match, word, computed_hash)
 
 
-   # check in lookup file if  hash is already cracked
-   def check_in_lookup(hash_data):
-        hash_type = hash_data[1]
-        hash_value = hash_data[0]
-        try: 
-            #if PARAMETERS['verbose'] == True: print("checking for hash in lookup file...")
-            with open(f'lookup/{hash_type}/data.lst', 'r') as f:
-                  cracked_hashes = [line.strip() for line in f.readlines()]
-                  for cracked_hash in cracked_hashes:
-                     cracked_hash = cracked_hash.split(':')
-                     if hash_value == cracked_hash[0]:
-                        print(f"Hash already cracked!")
-                        save_result(f"{cracked_hash[0]}:{cracked_hash[1]}")
-                        return True
-                     
-            #if PARAMETERS['verbose'] == True: print("HASH not found in lookup file")
-            return False
-      
-        except Exception as e:
-            #if PARAMETERS['verbose'] == True: print("lookup file Error...", e)
-            return False
-
-
    def crack_hash(self):
       
         # Read the wordlist file and split into a list of words
@@ -315,16 +389,16 @@ class hash_cracking:
       #   # Create a multiprocessing pool and map the hash_word function to each word in parallel
       #   with Pool(processes=cpu_count()) as pool:
       #       results = pool.map(self.hash_word, words)
-         
+        
         results = (self.hash_word(word) for word in words)
 
         # Process results to find matches
         found = False
         try:
-         for match, word, hash in results:
+         for match, word, computed_hash in results:
                if match:
                   print(f"Hash cracked!")
-                  save_result(f"{hash}:{word}", self.hash_type, True)
+                  save_result(f"{computed_hash}:{word}", self.hash_type, True)
                   found = True
         except TypeError as e:
             pass
@@ -335,7 +409,6 @@ class hash_cracking:
 class save_result:
    def __init__(self, result, hash_type=None, save2lookup=False):
       self.history_file = "history.txt"
-      if hash_type: self.lookup_file_path= f"lookup/{hash_type}/data.lst"
       self.result = result
 
       # print result to console
@@ -349,7 +422,13 @@ class save_result:
 
       # save result to loookup file if hash is cracked
       if save2lookup == True:
-         self.save_results(self.lookup_file_path)
+          if instance(self.result, list):
+              for res in self.result:
+                res = res.split(":")
+                lookup.save_data_in_lookup(res[0], res[1], hash_type) # @params: hash_str, hash_word, hash_type
+          else:
+              res = self.result.split(":")
+              lookup.save_data_in_lookup(res[0], res[1], hash_type) 
 
       # save result to specified file if specified
       if PARAMETERS['output-save'] == True:
@@ -445,14 +524,14 @@ def main(data):
                tasks = list(zip(PARAMETERS['hash-value'], PARAMETERS['hash-type']))  # Create a list of tuples pairing each hash type and hash value
 
                for data in tasks:
-                   if not hash_cracking.check_in_lookup(data):
+                   if not lookup.check_data_in_lookup(data):
                        hash_cracking(data)
             
             elif len(PARAMETERS['hash-type']) == 1:
                # Sequential processing for list without multiprocessing
                for hash in PARAMETERS['hash-value']:
                    hash_data = hash,  PARAMETERS['hash-type'][0]
-                   if not hash_cracking.check_in_lookup(data):
+                   if not lookup.check_data_in_lookup(hash_data):
                      hash_cracking(hash_data)
             
             else:
@@ -463,7 +542,7 @@ def main(data):
 
       # calling hash_cracking to crack hashes 
       for data in HASH_IDENTIFICATION_RESULT.items():
-          if not hash_cracking.check_in_lookup(data):
+          if not lookup.check_data_in_lookup(data): # @params:  hash_str, hash_type:
             hash_cracking(data)
 
 if __name__ == '__main__':
@@ -471,3 +550,4 @@ if __name__ == '__main__':
       main(sys.argv[1:])
    else:
       main([''])
+
