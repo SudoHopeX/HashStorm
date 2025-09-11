@@ -107,8 +107,8 @@ class Lookup:
                                      "SHA2",  "SHA256",  "SHA3", " SHA512", " WHIRLPOOL" )
 
         # execute this line only once while hashstorm installation
-        # for hash_type in self.hashtypes_supported:
-            # self.create_table(hash_type)
+        for hash_type in self.hashtypes_supported:
+            self.create_table(hash_type)
 
 
      def create_table(self, hash_type):
@@ -142,8 +142,7 @@ class Lookup:
         '''
 
         if hash_data[1] not in self.hashtypes_supported:
-            # print("Hash Type Not supported!")
-            return False
+            return False    # Hash Type Not supported!
 
         try:
             with sqlite3.connect("lookup.db") as conn:
@@ -161,7 +160,7 @@ class Lookup:
                     print(f"Hash already cracked!")
                     for d in data:
                         print(f"{d[0]} >> '{d[1]}'")
-                        save_result(f"{data[0]}:{data[1]}") # data[0] = hashed_str, data[1] = hashed_word
+                        save_result(f"{data[0]}:{data[1]}")  # data[0] = hashed_str, data[1] = hashed_word
                     return True
                 else:
                     # print("NO Data found!")
@@ -179,12 +178,12 @@ class Lookup:
         try:
             with sqlite3.connect("lookup.db") as conn:
                 cursor_obj = conn.cursor()
-                query = f'''INSERT INTO {hash_type}(hashed_str, hashed_word) VALUES('{hashed_str}','{hashed_word}')'''
+                query = f'''INSERT INTO {hash_type}(hashed_str, hashed_word) VALUES("{hashed_str}","{hashed_word}")'''
                 cursor_obj.execute(query)
                 conn.commit()
 
         except Exception as e:
-            print("Lookup DB Save Error!", e)
+            # print("Lookup DB Error while saving!", e)
             pass
 
 
@@ -550,4 +549,3 @@ if __name__ == '__main__':
       main(sys.argv[1:])
    else:
       main([''])
-
