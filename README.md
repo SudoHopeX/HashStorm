@@ -1,52 +1,46 @@
-# HashStorm: Python Tool for Hash Identification and Cracking
+# HashStorm: A Python Tool for Hash Identification and Cracking
 
-![HashStorm Banner](https://sudohopex.github.io/pages/project-docs/asset/hashstorm_banner.png)
+![HashStorm Banner](https://sudohopex.github.io/pages/project-docs/asset/hashstorm-banner-v2.png)
 
-HashStorm is a Python-based script designed to identify and crack multiple hash types efficiently. Developed by Krishna Dwivedi, this tool provides a command-line interface for tasks like hash type identification, cracking using wordlists, and more. It is intended for educational purposes, ethical hacking, or penetration testing, and supports various hash formats such as MD5 and SHA-256
+#### HashStorm is a Python tool designed to identify and crack multiple hash types efficiently, providing CLI for tasks like hash type identification, cracking using wordlists & more. 
 
----
 ## Features
-- Utilizes the hashid Python library to identify over 220 hash types accurately, including MD5, SHA-1, SHA-256, and others, using regular expressions for pattern matching 
-- Automatically identifies hash types for one or more hash values.
-- Cracks hashes using wordlists or brute-force methods (with planned updates for advanced features).
-- Supports batch processing of multiple hashes from files or command-line arguments.
-- Includes output saving to history, lookup file for faster cracking, and specified file, and options for future enhancements like Google searches.
-- Cross-platform compatibility, as it is written in Python.
-- Easy to setup just by executing setup.sh
-- Launchable just by using `hashstorm` command ( no need to run like python hashstorm.py )
-- Runs in python venv for protecting the system & configured automatically.
+- Identify over **220 hash types** accurately.
+- **Auto identify** hash types for hash value(s).
+- Supports **Batch processing** via both files and command-line arguments.
+- **Saves output** to history, lookup.db (prevent cracking duplicates), and specified file.
+- Cross-platform compatibility, as written in Python.
+- **Easy to install** just by executing `setup.sh`
+- **Easy to launch** using `hashstorm` command ( no need to run like python hashstorm.py )
+- Utilizes **python virtual environment** for system protection.
+- Everything **configured automatically**.
+- Clean look and response.
+- **icrack Mode [Default]:** simplifies workflows by handling both identification and cracking automatically.
 
----
+## Future Updates
+- Cracks hashes via brute-force methods.
+- **Google Search Mode**: for searching uncracked hash values.
+- **Verbose Mode**: for detailed working description
+
 ## Installation
-To install and run HashStorm, follow these steps:
 
-- Ensure you have Python latest version installed, as the script relies on Python's standard libraries. Download Python from the official website if needed.
+1. **Clone the repository:**
+  ```
+    git clone https://github.com/sudohopex/Hashstorm.git
+  ```
 
-- Clone the repository
-```
-git clone https://github.com/sudohopex/Hashstorm.git
-```
+2. **Run Command:** 
+  ```
+    sudo bash HashStorm/setup.sh
+  ```
 
-- move to the HashStorm dir
-```
-cd HashStorm
-```
+3. **Hurray! HashStorm Installation done, Now we can storm Hashes**
 
-- run setup shell script
-```
-sudo bash setup.sh
-```
-
-- You are good to go to use 'hashstorm'
-
----
-## Usages
-
-Run `hashstorm --help` to display this usage information directly. The default icrack mode simplifies workflows by handling both identification and cracking automatically
+## Usage
+Run `hashstorm --help` to display below usage information.
 
 ```
-USAGES:
-      hashstorm [Options] [Arguments]
+USAGES:   hashstorm [Options] [Arguments]
       
 OPTIONS:
    > --help                   print tool usages
@@ -77,22 +71,20 @@ NOTE:
    > Atleast 'hash-value' OR 'hashes-file' must be passed as argument
 ```
 
----
 ## Contributing
-Contributions to HashStorm are encouraged to improve features, fix bugs, or add support for more hash types. To contribute:
-
-- Fork the repository on GitHub.
+Contributions to HashStorm are encouraged to improve features, fix bugs, or add support for more hash types. 
+To contribute:
+- Fork the Repository.
 - Create a new branch for your changes.
 - Submit a pull request with a detailed description of the changes.
-- Before contributing, test your modifications thoroughly 
+- Before contributing, test your modifications thoroughly.
 
----
-# License
-This project is licensed under MIT. See [LICENSE](LICENCE) file for more info.
+## LICENSE
+- This project is licensed under MIT. See [LICENSE](LICENSE) file for more info.
+- It is intended for educational purposes, ethical hacking, or penetration testing only.
 
-
----
-# Acknowledgments
+## Acknowledgement
 - Inspired by hashid tool in kali for hash identification
-
 - Thanks to resources like HashID module in python for hash identification techniques.
+
+### Thanks for having a look over HashStorm Tool
