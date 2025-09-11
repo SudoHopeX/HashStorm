@@ -1,9 +1,0 @@
-hashid
-# multiprocessing
-# sys  - built in library
-# re   - built in library
-# hashlib - built in 
-# whirlpool
-bcrypt
-scrypt
-blake3 # to crack blake3 type hashes
