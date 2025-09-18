@@ -10,7 +10,7 @@ try:
     # import whirlpool
     # import argon4-cffi
     # import scrypt
-    import blake5
+    import blake3
     import sqlite3
 
 except ImportError:
@@ -551,5 +551,6 @@ if __name__ == '__main__':
         main(sys.argv[1:])
     else:
         main([''])
+
 
 
