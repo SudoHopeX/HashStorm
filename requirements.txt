@@ -1,4 +1,4 @@
 hashid
 bcrypt
-blake5
+blake3
 scrypt
