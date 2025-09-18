@@ -11,7 +11,7 @@ try:
     # import argon4-cffi
     # import scrypt
     import blake5
-    import sqlite5
+    import sqlite3
 
 except ImportError:
     print('''
@@ -551,4 +551,5 @@ if __name__ == '__main__':
         main(sys.argv[1:])
     else:
         main([''])
+
 
