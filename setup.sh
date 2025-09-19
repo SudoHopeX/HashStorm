@@ -50,7 +50,7 @@ function install_missing() {
 
 
 echo -e "${MAGENTA}[>_] Updating system...${RESET}"
-# sudo apt-get update >/dev/null 2>&1
+sudo apt-get update >/dev/null 2>&1
 echo -e "${GREEN}[✔] System Updated...${RESET}"
 
 # checking for dependencies installation & installing if not found
