@@ -37,7 +37,7 @@ HASH_IDENTIFICATION_RESULT = {}
 # class to show Tool usage
 class Tool_info():
    def hash_crack_name():
-         print('''
+         print("""
                ######      ######        ###############################################
               ######      ######         ###  BY KRISHNA DWIVEDI [ @sudo-hope0530 ]  ###
              ######      ######          ###############################################
@@ -52,10 +52,11 @@ class Tool_info():
     ######      ######        ##########     ###      #########  ###    ###  ###           ##
    ######      ######         ########      ###       #######   ###      ## ###     v2.2   ##
       
-''')
+""")
+      
    def print_usages():
       Tool_info.hash_crack_name()
-      print('''
+      print("""
       HashStorm v2.2 by Krishna Dwivedi
                GitHub   => sudo-hope0530
                LinkedIn => dkrishna0125
@@ -94,7 +95,7 @@ class Tool_info():
       NOTE: 
          > Tool usages format must be followed
          > Atleast 'hash-value' OR 'hashes-file' must be passed as argument
-   ''')
+   """)
 
 # lookup db 
 class Lookup:
@@ -123,10 +124,10 @@ class Lookup:
                     Column 2 => hashed_word
                 '''
 
-            query = f'''CREATE TABLE IF NOT EXISTS {hash_type}(
+            query = f"""CREATE TABLE IF NOT EXISTS {hash_type}(
                         hashed_str VARCHAR(512) PRIMARY KEY UNIQUE NOT NULL,
                         hashed_word VARCHAR(50)
-                    ) '''
+                    ) """
 
             cursor_obj.execute(query)
 
@@ -148,7 +149,7 @@ class Lookup:
         try:
             with sqlite3.connect("lookup.db") as conn:
                 cursor_obj = conn.cursor()
-                query = f'''SELECT * FROM {hash_data[1]} WHERE hashed_str="{hash_data[0]}"'''
+                query = f"""SELECT * FROM {hash_data[1]} WHERE hashed_str='{hash_data[0]}'"""
                 cursor_obj.execute(query)
                 data = cursor_obj.fetchall()
 
@@ -161,7 +162,7 @@ class Lookup:
                     print(f"Hash already cracked!")
                     for d in data:
                         print(f"{d[0]} >> '{d[1]}'")
-                        save_result(f"{data[0]}:{data[1]}") # data[0] = hashed_str, data[1] = hashed_word
+                        save_result(f"{d[0]}:{d[1]}") # d[0] = hashed_str, d[1] = hashed_word
                     return True
                 else:
                     # print("NO Data found!")
@@ -550,3 +551,4 @@ if __name__ == '__main__':
       main(sys.argv[1:])
    else:
       main([''])
+
