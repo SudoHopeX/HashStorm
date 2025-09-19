@@ -422,7 +422,7 @@ class save_result:
 
         # save result to loookup file if hash is cracked
         if save2lookup == True:
-            if instance(self.result, list):
+            if isinstance(self.result, list):
                 for res in self.result:
                     res = res.split(":")
                     lookup.save_data_in_lookup(res[0], res[1], hash_type)  # @params: hash_str, hash_word, hash_type
@@ -551,6 +551,7 @@ if __name__ == '__main__':
         main(sys.argv[1:])
     else:
         main([''])
+
 
 
 
