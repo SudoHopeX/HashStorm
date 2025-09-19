@@ -161,14 +161,13 @@ class Lookup:
                 if data:
                     print(f"Hash already cracked!")
                     for d in data:
-                        print(f"{d[0]} >> '{d[1]}'")
+                        # print(f"{d[0]} >> '{d[1]}'")
                         save_result(f"{d[0]}:{d[1]}") # d[0] = hashed_str, d[1] = hashed_word
                     return True
                 else:
                     # print("NO Data found!")
                     return False
-
-
+   
 
      def save_data_in_lookup(self, hashed_str, hashed_word, hash_type):
 
@@ -551,4 +550,5 @@ if __name__ == '__main__':
       main(sys.argv[1:])
    else:
       main([''])
+
 
