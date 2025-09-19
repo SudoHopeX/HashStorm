@@ -37,15 +37,15 @@ ${RESET}"
 function install_missing() {
     local pkg="$1"
 
-	echo -e "${BLUE}[>_] Checking ${pkg} Installation...${RESET}"
+        echo -e "${BLUE}[>_] Checking ${pkg} Installation...${RESET}"
 
-	if ! dpkg -s $pkg >/dev/null 2>&1; then
-	   	echo -e "${YELLOW}[!] ${pkg} Installation not found. Installating it...${RESET}"
-	   	sudo apt-get install $pkg -y
-	   	echo -e "${GREEN}[✔] ${pkg} Installation successfully Done..${RESET}"
-	else
-		echo -e "${BLUE}[✔] ${pkg} Installation Found.${RESET}"
-	fi
+        if ! dpkg -s $pkg >/dev/null 2>&1; then
+                echo -e "${YELLOW}[!] ${pkg} Installation not found. Installating it...${RESET}"
+                sudo apt-get install $pkg -y
+                echo -e "${GREEN}[✔] ${pkg} Installation successfully Done..${RESET}"
+        else
+                echo -e "${BLUE}[✔] ${pkg} Installation Found.${RESET}"
+        fi
 }
 
 
@@ -72,11 +72,11 @@ deactivate
 
 # Checking for existence of Installed dir for HashStorm
 if ! [[ -d "$INSTALLED_DIR" ]] ; then
-	echo -e "${YELLOW}[!] HashStorm Installation Not found. Installing it..."
-	git clone https://github.com/SudoHopeX/HashStorm.git "$INSTALL_DIR/"
+        echo -e "${YELLOW}[!] HashStorm Installation Not found. Installing it..."
+        git clone https://github.com/SudoHopeX/HashStorm.git "$INSTALL_DIR/"
 else
-	# Copying Installed hashStorm dir to Opt dir
-	sudo cp -r "$INSTALLED_DIR" "$INSTALL_DIR/"
+        # Copying Installed hashStorm dir to Opt dir
+        sudo cp -r "$INSTALLED_DIR" "$INSTALL_DIR/"
 fi
 
 # creating hashstorm launcher
@@ -91,19 +91,26 @@ MAGENTA="\e[1;35m"
 YELLOW="\e[1;33m"
 RESET="\e[0m"
 MODE="\$1"
-
+MODE2="\$2"
 case "\$MODE" in
 
   identify|crack|icrack)
 
       source $TARGET_HOME/hashstorm_venv/bin/activate
-      python3 $INSTALL_DIR/HashStorm/hashstorm.py "\$@"
+      python2 $INSTALL_DIR/HashStorm/hashstorm.py "\$@"
       deactivate
         ;;
 
-	--help|-h|*)
+        --help|-h|*)
 
-		echo -e "${YELLOW}
+                if [ -n "\$2" ]; then
+                        # Run your tool if second parameter is provided
+                        source "$TARGET_HOME/hashstorm_venv/bin/activate"
+                        python3 "$INSTALL_DIR/HashStorm/hashstorm.py" "\$@"
+                        deactivate
+                else
+
+                        echo -e "${YELLOW}
                ######      ######        ###############################################
               ######      ######         ###    ${RED}BY KRISHNA DWIVEDI [ @SudoHopeX ]    ${YELLOW}###
              ######      ######          ###############################################
@@ -121,18 +128,18 @@ case "\$MODE" in
 ${RESET}"
 
       echo -e "${MAGENTA}HashStorm:  A Python Tool to identify and crack multiple hashes quickly.${RESET}
-	  "
+          "
 
       echo -e "${GREEN}USAGES:
             ${BLUE}hashstorm [Options] [Arguments]${RESET}
-		"
+                "
 
       echo -e "${GREEN}OPTIONS:${RESET}
    > --help                    print tool usages
    > identify                  identify the hash-type of specified hash-value
    > crack                     crack the hash-value (!NOTE: hash-type must be passed)
    > icrack [Default]          automatically identify hash-type and crack the hash-value specified
-	"
+        "
 
       echo -e "${GREEN}ARGUMENTS:${RESET}
    > -h <hash-value(s)>        add one or more hash-value to crack or identify followed by ','
@@ -145,7 +152,7 @@ ${RESET}"
    > -brute                    Crack hashes using self defined charset and length [in update]
    > -charset <charset>        Specify character set for bruteforccing like "a-z0-9" [in update]
    > -length <pass-max-length> Specify hash word's maximum value [in update]
-	"
+        "
 
       echo -e "${GREEN}EXAMPLES:${RESET}
    > hashstorm identify -h 5d41402abc4b2a76b9719d911017c592
@@ -154,13 +161,14 @@ ${RESET}"
    > hashstorm crack -H MD5 -h 5d41402abc4b2a76b9719d911017c592 -w wordlist.txt -o output.txt
    > hashstorm crack -H MD5,MD5 -h 5d41402abc4b2a76b9719d911017c592,5d41402abc4b2a76b9719d911017c592 -w wordlist.txt
    > hashstorm -h 5d41402abc4b2a76b9719d911017c592 -w wordlist.txt -o output.txt
-	"
+        "
 
       echo -e "${GREEN}NOTE:${RESET}
    > Tool usages format must be followed
    > Atleast 'hash-value' OR 'hashes-file' must be passed as argument
-	"
-   		;;
+        "
+                fi
+                ;;
 esac
 EOF
 
