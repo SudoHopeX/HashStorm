@@ -107,8 +107,8 @@ class Lookup:
                                      "SHA2",  "SHA256",  "SHA3", " SHA512", " WHIRLPOOL"]
 
         # execute this line only once while hashstorm installation
-        # for hash_type in self.hashtypes_supported:
-            # self.create_table(hash_type)
+        for hash_type in self.hashtypes_supported:
+            self.create_table(hash_type)
 
 
      def create_table(self, hash_type):
