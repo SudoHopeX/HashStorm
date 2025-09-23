@@ -17,10 +17,12 @@
 - Clean look and response.
 - **icrack Mode [Default]:** simplifies workflows by handling both identification and cracking automatically.
 
-## Future Updates
-- Cracks hashes via brute-force methods.
-- **Google Search Mode**: for searching uncracked hash values.
+## Future Upgrades
+- **Chatset bruteforce:** Cracks hashes via defined charset brute-force methods.
+- **Google Search Mode**: Advanced google searching for already cracked hashes on the internet.
 - **Verbose Mode**: for detailed working description
+- **Hashcat** integration
+- your's suggestions are welcomed
 
 ## Installation
 
@@ -54,9 +56,6 @@ ARGUMENTS:
    > -H <hash-type(s)>        pass hash-type to crack
    > -w <wordlist-path>       specify wordlist to use for cracking hash
    > -o <output-file>         save result in specified file
-   > -v                       verbose mode ( show detailed info while cracking ) [in update]
-   > -g                       perform a google search if hash not cracked [in update]
-   > -brute                   crack hashes using self defined charset and length [in update]
 
 EXAMPLES:
    > hashstorm identify -h 5d41402abc4b2a76b9719d911017c592
@@ -70,12 +69,6 @@ NOTE:
    > Tool usages format must be followed
    > Atleast 'hash-value' OR 'hashes-file' must be passed as argument
 ```
-
-## Upgrades
-- Hashcat integration
-- Advanced google search
-- charset bruteforce
-- your's suggestions are welcomed
 
 ## Contributing
 Contributions to HashStorm are encouraged to improve features, fix bugs, or add support for more hash types. 
@@ -94,4 +87,5 @@ To contribute:
 - Thanks to resources like HashID module in python for hash identification techniques.
 
 ### Thanks for having a look over HashStorm Tool
+
 
