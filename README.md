@@ -71,6 +71,12 @@ NOTE:
    > Atleast 'hash-value' OR 'hashes-file' must be passed as argument
 ```
 
+## Upgrades
+- Hashcat integration
+- Advanced google search
+- charset bruteforce
+- your's suggestions are welcomed
+
 ## Contributing
 Contributions to HashStorm are encouraged to improve features, fix bugs, or add support for more hash types. 
 To contribute:
@@ -88,3 +94,4 @@ To contribute:
 - Thanks to resources like HashID module in python for hash identification techniques.
 
 ### Thanks for having a look over HashStorm Tool
+
