@@ -108,9 +108,10 @@ class Lookup:
                                      "KECCAK",  "MD6",  "PBKDF2",  "SCRYPT",
                                      "SHA2",  "SHA256",  "SHA3", " SHA512", " WHIRLPOOL"]
 
-        # execute this line only once while hashstorm installation
-        for hash_type in self.hashtypes_supported:
-            self.create_table(hash_type)
+         # execute this line only once while hashstorm installation
+         # def initialize_lookup_tables(self):
+         #    for hash_type in self.hashtypes_supported:
+         #       self.create_table(hash_type)
 
 
      def create_table(self, hash_type):
@@ -154,6 +155,11 @@ class Lookup:
                 cursor_obj.execute(query)
                 data = cursor_obj.fetchall()
 
+        except sqlite3.OperationalError:
+            # if table doesn't exits then create table and set data = None
+            self.create_table(hash_data[1])
+            data = None
+               
         except Exception as e:
                 # print("Check Lookup DB Err:", e)
                 pass
@@ -172,22 +178,31 @@ class Lookup:
 
      def save_data_in_lookup(self, hashed_str, hashed_word, hash_type):
 
-
+        hash_type_supported = True
         if hash_type not in self.hashtypes_supported:
-            self.hashtypes_supported.append(hash_type)
-            self.create_table(hash_type)
+            hash_type_supported = False
 
-        try:
-            with sqlite3.connect("lookup.db") as conn:
-                cursor_obj = conn.cursor()
-                query = f"""INSERT INTO {hash_type}(hashed_str, hashed_word) VALUES('{hashed_str}','{hashed_word}')"""
-                cursor_obj.execute(query)
-                conn.commit()
-
-        except Exception as e:
-            print("Lookup DB Save Error!", e)
-            pass
-
+        
+        if hash_type_supported:
+           try:
+               with sqlite3.connect("lookup.db") as conn:
+                   cursor_obj = conn.cursor()
+                   query = f"""INSERT INTO {hash_type}(hashed_str, hashed_word) VALUES('{hashed_str}','{hashed_word}')"""
+                   cursor_obj.execute(query)
+                   conn.commit()
+   
+           except sqlite3.OperationalError:
+               self.create_table(hash_data[1])
+   
+               with sqlite3.connect("lookup.db") as conn:
+                   cursor_obj = conn.cursor()
+                   query = f"""INSERT INTO {hash_type}(hashed_str, hashed_word) VALUES('{hashed_str}','{hashed_word}')"""
+                   cursor_obj.execute(query)
+                   conn.commit()
+                   
+           except Exception as e:
+               print("Lookup DB Error while Saving!", e)
+               pass
 
 
 # Lookup class object
@@ -390,7 +405,7 @@ class hash_cracking:
              return file_encoding_type
       
         # Read the wordlist file and split into a list of words
-        with open(self.wordlist, 'r', encoding=detect_file_encoding_type(wordlist)) as f:
+        with open(self.wordlist, 'r', encoding=detect_file_encoding_type(self.wordlist)) as f:
             lines = f.readlines()
            
         words = [line.strip() for line in lines]  # Read lines and strip whitespace
@@ -559,6 +574,3 @@ if __name__ == '__main__':
       main(sys.argv[1:])
    else:
       main([''])
-
-
-
