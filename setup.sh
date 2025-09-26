@@ -65,7 +65,7 @@ source "$TARGET_HOME"/hashstorm_venv/bin/activate
 
 # Installing HashStorm required libraries or packages
 echo -e "${MAGENTA}[>_] Installing required HashStorm dependencies & pkgs....${RESET}"
-pip3 install hashid bcrypt scrypt blake3
+pip3 install hashid bcrypt scrypt blake3 charset_normalizer
 
 # deactivating venv after installation
 deactivate
