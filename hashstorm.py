@@ -2,7 +2,8 @@
 try:
    import hashid               
    import sys     
-   import os              
+   import os     
+   from charset_normalizer import from_path
    from multiprocessing import Pool, cpu_count
    import re
    import hashlib
@@ -382,9 +383,17 @@ class hash_cracking:
 
    def crack_hash(self):
       
+        # detecting file encoding type
+        def detect_file_encoding_type(file_path):
+             file_result = from_path(file_path)
+             file_encoding_type = file_result.best().encoding
+             return file_encoding_type
+      
         # Read the wordlist file and split into a list of words
-        with open(self.wordlist, 'r') as f:
-            words = [line.strip() for line in f.readlines()]  # Read lines and strip whitespace
+        with open(self.wordlist, 'r', encoding=detect_file_encoding_type(wordlist)) as f:
+            lines = f.readlines()
+           
+        words = [line.strip() for line in lines]  # Read lines and strip whitespace
 
       #   # Create a multiprocessing pool and map the hash_word function to each word in parallel
       #   with Pool(processes=cpu_count()) as pool:
@@ -550,5 +559,6 @@ if __name__ == '__main__':
       main(sys.argv[1:])
    else:
       main([''])
+
 
 
