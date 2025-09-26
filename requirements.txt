@@ -2,3 +2,4 @@ hashid
 bcrypt
 blake3
 scrypt
+charset_normalizer
